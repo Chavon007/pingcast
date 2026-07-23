@@ -1,0 +1,89 @@
+import { useEffect } from "react";
+import type { UseFormReturn } from "react-hook-form";
+import { LuMapPin } from "react-icons/lu";
+import InputField from "../components/InputField";
+import SelectOption from "../components/Select";
+import Button from "../components/Button";
+import type { FormDTO } from "../schema/formSchema";
+
+const platformOptions = [
+  { label: "WhatsApp", value: "whatsapp" },
+  { label: "SMS", value: "sms" },
+  { label: "Email", value: "email" },
+  { label: "Telegram", value: "telegram" },
+];
+
+const platformFieldConfig = {
+  whatsapp: { label: "WhatsApp number", placeholder: "+2348000000000", type: "tel" },
+  sms: { label: "Phone number", placeholder: "+2348000000000", type: "tel" },
+  email: { label: "Email address", placeholder: "you@example.com", type: "email" },
+  telegram: { label: "Telegram username", placeholder: "@yourhandle", type: "text" },
+} as const;
+
+interface SubscribeFormFieldsProps {
+  methods: UseFormReturn<FormDTO>;
+  submitError: string | null;
+  submitSuccess: string | null;
+}
+
+export default function SubscribeFormFields({
+  methods,
+  submitError,
+  submitSuccess,
+}: SubscribeFormFieldsProps) {
+  const platform = methods.watch("platform") ?? "whatsapp";
+  const fieldConfig = platformFieldConfig[platform];
+
+  useEffect(() => {
+    methods.resetField("platformHandle");
+  }, [platform]);
+
+  return (
+    <>
+      <InputField
+        label="Your location"
+        icon={<LuMapPin />}
+        type="text"
+        placeholder="Lagos, Nigeria"
+        registration={methods.register("location")}
+        error={methods.formState.errors.location}
+      />
+
+      <div>
+        <SelectOption
+          label="Send via"
+          options={platformOptions}
+          registration={methods.register("platform")}
+          error={methods.formState.errors.platform}
+        />
+        <InputField
+          label={fieldConfig.label}
+          type={fieldConfig.type}
+          placeholder={fieldConfig.placeholder}
+          registration={methods.register("platformHandle")}
+          error={methods.formState.errors.platformHandle}
+        />
+      </div>
+
+      <InputField
+        label="Preferred delivery time"
+        type="text"
+        placeholder="07:00 AM"
+        registration={methods.register("deliveryTime")}
+        error={methods.formState.errors.deliveryTime}
+      />
+      <p>Uses your local timezone (Africa/Lagos).</p>
+
+      {submitError && <p>{submitError}</p>}
+      {submitSuccess && <p>{submitSuccess}</p>}
+
+      <Button
+        type="submit"
+        isloading={methods.formState.isSubmitting}
+        loadingText="Subscribing..."
+      >
+        Subscribe
+      </Button>
+    </>
+  );
+}

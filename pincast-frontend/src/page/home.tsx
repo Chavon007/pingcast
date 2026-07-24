@@ -19,12 +19,14 @@ function Home() {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   const handleSubmit = async (data: FormDTO) => {
+   
     setSubmitError(null);
     setSubmitSuccess(null);
     try {
       await subscribeUser(data);
       setSubmitSuccess("Successfully subscribed");
     } catch (err) {
+     
       setSubmitError("Something went wrong. Please try again.");
     }
   };

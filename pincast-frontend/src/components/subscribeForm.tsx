@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { UseFormReturn } from "react-hook-form";
+import { useWatch, useFormState, type UseFormReturn } from "react-hook-form";
 import { LuMapPin } from "react-icons/lu";
 import InputField from "../components/InputField";
 import SelectOption from "../components/Select";
@@ -43,7 +43,9 @@ export default function SubscribeFormFields({
   submitError,
   submitSuccess,
 }: SubscribeFormFieldsProps) {
-  const platform = methods.watch("platform") ?? "whatsapp";
+  const platform =
+    useWatch({ control: methods.control, name: "platform" }) ?? "whatsapp";
+  const { errors, isSubmitting } = useFormState({ control: methods.control });
   const fieldConfig = platformFieldConfig[platform];
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function SubscribeFormFields({
         type="text"
         placeholder="Lagos, Nigeria"
         registration={methods.register("location")}
-        error={methods.formState.errors.location}
+        error={errors.location}
       />
 
       <div className="flex items-center gap-2 p-2">
@@ -68,7 +70,7 @@ export default function SubscribeFormFields({
           label="Send via"
           options={platformOptions}
           registration={methods.register("platform")}
-          error={methods.formState.errors.platform}
+          error={errors.platform}
         />
         <div className="flex-1">
           <InputField
@@ -77,7 +79,7 @@ export default function SubscribeFormFields({
             type={fieldConfig.type}
             placeholder={fieldConfig.placeholder}
             registration={methods.register("platformHandle")}
-            error={methods.formState.errors.platformHandle}
+            error={errors.platformHandle}
           />
         </div>
       </div>
@@ -87,16 +89,23 @@ export default function SubscribeFormFields({
         type="text"
         placeholder="07:00 AM"
         registration={methods.register("deliveryTime")}
-        error={methods.formState.errors.deliveryTime}
+        error={errors.deliveryTime}
       />
-      <p className="text-xs px-1 font-sans text-slate-500 font-normal">Uses your local timezone (Africa/Lagos).</p>
+      <p className="text-xs px-1 font-sans text-slate-500 font-normal">
+        Uses your local timezone (Africa/Lagos).
+      </p>
 
-      {submitError && <p>{submitError}</p>}
-      {submitSuccess && <p>{submitSuccess}</p>}
+      {submitError && (
+        <p className="text-red-500 font-sans text-sm">{submitError}</p>
+      )}
+      {submitSuccess && (
+        <p className="text-red-500 font-sans text-sm">{submitSuccess}</p>
+      )}
 
+      
       <Button
         type="submit"
-        isloading={methods.formState.isSubmitting}
+        isloading={isSubmitting}
         loadingText="Subscribing..."
       >
         Subscribe

@@ -1,9 +1,10 @@
 <?php
 
-namespace Modules\Weather\Providers;
+namespace Modules\Weather\App\Providers;
 
 use Nwidart\Modules\Support\ModuleServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
+use Modules\Weather\App\Interfaces\SubscriptionRepositoryInterface;
+use Modules\Weather\App\Repositories\SubscriptionRepository;
 
 class WeatherServiceProvider extends ModuleServiceProvider
 {
@@ -18,13 +19,6 @@ class WeatherServiceProvider extends ModuleServiceProvider
     protected string $nameLower = 'weather';
 
     /**
-     * Command classes to register.
-     *
-     * @var string[]
-     */
-    // protected array $commands = [];
-
-    /**
      * Provider classes to register.
      *
      * @var string[]
@@ -35,12 +29,12 @@ class WeatherServiceProvider extends ModuleServiceProvider
     ];
 
     /**
-     * Define module schedules.
-     * 
-     * @param $schedule
+     * Register the service provider.
      */
-    // protected function configureSchedules(Schedule $schedule): void
-    // {
-    //     $schedule->command('inspire')->hourly();
-    // }
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->bind(SubscriptionRepositoryInterface::class, SubscriptionRepository::class);
+    }
 }

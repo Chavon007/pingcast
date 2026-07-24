@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Weather\Providers;
+namespace Modules\Weather\App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 

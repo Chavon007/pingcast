@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   return (
-    <button disabled={isloading || disabled} {...props}>
+    <button className={`flex items-center justify-center bg-[#ffa18f] hover:bg-[#ffa18f]/80 p-2 rounded-2xl cursor-pointer gap-2 font-sans font-semibold text-base text-accent ${className}`} disabled={isloading || disabled} {...props}>
       {isloading ? (
         <>
           <AiOutlineLoading3Quarters className="animate-spin text-lh" />

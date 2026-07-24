@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,12 @@ return [
 
     'connections' => [
 
-        'sqlite' => [
+    "mongodb" => [
+        "driver" => "mongodb",
+        "url" => env("MONGODB_URI"),
+        "database" => env('MONGODB_DATABASE', 'pingcast')
+    ],
+      'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),

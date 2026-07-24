@@ -5,9 +5,10 @@ export const FormSchema = z.discriminatedUnion("platform", [
   z.object({
     platform: z.literal("whatsapp"),
     location: z.string().min(1, "Location is required"),
-   deliveryTime: z.string().min(1, "Delivery time is required"),
+    deliveryTime: z.string().min(1, "Delivery time is required"),
     platformHandle: z
-      .string()
+      .string({ message: "This field is required" })
+      .min(1, "WhatsApp number is required")
       .regex(phoneRegex, "Enter a valid whatsapp number"),
   }),
   z.object({
@@ -21,14 +22,17 @@ export const FormSchema = z.discriminatedUnion("platform", [
     location: z.string().min(1, "Location is required"),
     deliveryTime: z.string().min(1, "Delivery time is required"),
     platformHandle: z
-      .string()
+      .string({ message: "This field is required" })
       .min(1, "Please eneter a valid telegram username"),
   }),
   z.object({
     platform: z.literal("sms"),
     location: z.string().min(1, "Location is required"),
-  deliveryTime: z.string().min(1, "Delivery time is required"),
-    platformHandle: z.string().regex(phoneRegex, "Enter a valid phone number"),
+    deliveryTime: z.string().min(1, "Delivery time is required"),
+    platformHandle: z
+      .string({ message: "This field is required" })
+      .min(1, "Phone number is required")
+      .regex(phoneRegex, "Enter a valid phone number"),
   }),
 ]);
 

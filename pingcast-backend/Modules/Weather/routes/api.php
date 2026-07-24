@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Weather\Http\Controllers\WeatherController;
+use Modules\Weather\App\Http\Controllers\WeatherController;
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('weather', WeatherController::class)->names('weather');
+
+Route::get("/", function(){
+    return "Pingcast backend is running";
 });
+Route::post("/subscribe", [WeatherController::class, "store"])->name("subscribers.store");

@@ -1,6 +1,6 @@
 import type React from "react";
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
-
+import { RiArrowDropDownLine } from "react-icons/ri";
 interface Option {
   label: string;
   value: string;
@@ -24,16 +24,31 @@ const SelectOption: React.FC<SelectProps> = ({
 }) => {
   const selectId = id ?? registration.name;
   return (
-    <div>
-      <label htmlFor={selectId}>{label}</label>
-      <select className={className} id={selectId} {...registration} {...props}>
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-      {error?.message && <p>{error?.message}</p>}
+    <div className="flex flex-col gap-1">
+      <label
+        className="text-sm text-slate-500 font-sans font-medium"
+        htmlFor={selectId}
+      >
+        {label}
+      </label>
+      <div className="relative">
+        <select
+          className={`appearance-none pr-8 ${className ?? ""}`}
+          id={selectId}
+          {...registration}
+          {...props}
+        >
+          {options.map((opt) => (
+            <option className="text-xs focus:outline-none" key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <RiArrowDropDownLine className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+      </div>
+      {error?.message && (
+        <p className="font-sans text-red-500 text-sm">{error?.message}</p>
+      )}
     </div>
   );
 };

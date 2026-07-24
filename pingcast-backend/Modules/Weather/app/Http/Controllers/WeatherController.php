@@ -1,56 +1,31 @@
 <?php
 
-namespace Modules\Weather\Http\Controllers;
-
+namespace Modules\Weather\App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Modules\Weather\App\Requests\StoreSubscriptionRequest;
+use Modules\Weather\App\Services\SubscriptionService;
 
 class WeatherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('weather::index');
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('weather::create');
-    }
+public function __construct(protected SubscriptionService $subscriptionService){
+}
+
+  
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(StoreSubscriptionRequest $request) {
+        $subscription = $this->subscriptionService->create($request->validated());
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('weather::show');
+        return response()->json([
+            "message" => "Successfully subscribed",
+            "data" => $subscription
+        ], 201);
     }
+       
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('weather::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+    
+   
 }

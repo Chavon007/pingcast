@@ -19,23 +19,21 @@ function Home() {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   const handleSubmit = async (data: FormDTO) => {
-   
     setSubmitError(null);
     setSubmitSuccess(null);
     try {
       await subscribeUser(data);
       setSubmitSuccess("Successfully subscribed");
     } catch (err) {
-     
       setSubmitError("Something went wrong. Please try again.");
     }
   };
 
   return (
-    <div className="bg-linear-to-br from-primary via-accent to-secondary min-h-screen py-12 px-2 flex items-center">
-      <div className="container flex items-center justify-between gap-4 w-[90%] mx-auto">
+    <div className="bg-linear-to-br from-primary via-accent to-secondary min-h-screen py-12 px-2 flex items-center overflow-hidden">
+      <div className="container lg:flex items-center justify-between gap-4 lg:w-[90%] mx-auto">
         {/* content */}
-        <div className="max-w-[50%] p-3 flex flex-col gap-2">
+        <div className="w-full lg:max-w-[50%] p-3 flex flex-col gap-3 md:gap-3 lg:gap-2">
           <h5 className="flex items-center gap-2 w-70 p-1 justify-center rounded-2xl bg-[#fbf6f2]">
             <span>
               <LuSparkles className="text-[#fbceae]" />
@@ -44,30 +42,30 @@ function Home() {
               AI-personalized weather concierge
             </span>
           </h5>
-          <h2 className="text-5xl font-semibold font-sans text-slate-800/80 leading-15">
-            Your sky, <br />{" "}
+          <h2 className="text-5xl md:text-6xl font-semibold font-sans text-slate-800/80 leading-15">
+            Your sky, <br className="block md:hidden lg:block" />
             <span className="text-[#fbceae]">delivered daily.</span>
           </h2>
-          <p className="text-[18px] font-sans text-slate-500 max-w-[500px] font-normal leading-8">
+          <p className="text-[18px] font-sans text-slate-500 max-w-125 md:max-w-150 lg:max-w-125 font-normal leading-8">
             Tell pingcast where you are and where to reach you. Every morning
             you'll get a warm, AI-personalized forecast; what to wear, what to
             bring, what to enjoy.
           </p>
           <img
-            className="w-[500px] h-[300px] rounded-3xl"
+            className="w-125 md:w-full lg:w-125 h-75 md:h-87.5 lg:h-75 rounded-3xl"
             src="https://daily-sunshine-ai.lovable.app/assets/weather-hero-COmC8XCK.jpg"
             alt="cloud"
             width={50}
             height={50}
           />
-          <div className=" w-[90%] flex items-center mt-2 justify-between gap-3">
+          <div className=" md:w-[90%] flex items-center mt-2 justify-between gap-3">
             {about.map((a) => (
               <p
                 key={a.title}
                 className="flex items-center rounded-3xl bg-[#eef3fb]  w-[400px] p-2  justify-center gap-2 font-sans text-xs"
               >
                 <span className="text-[#74beec]">{a.icon}</span>
-                <span className="text-slate-600 font-normal text-xs">
+                <span className="text-slate-600 font-normal text-[11px] md:text-xs">
                   {a.title}
                 </span>
               </p>
@@ -76,7 +74,7 @@ function Home() {
         </div>
 
         {/* form */}
-        <div className="w-[50%]">
+        <div className="lg:w-[50%] mt-4 md:mt-4 lg:mt-0">
           <div className="bg-linear-to-br from-card to-card2 rounded-3xl h-auto p-4 flex flex-col gap-4">
             <div className="w-[90%] mx-auto flex items-center gap-3">
               <p className="bg-[#ffa18f] p-2 rounded-full">

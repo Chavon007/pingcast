@@ -14,10 +14,22 @@ const platformOptions = [
 ];
 
 const platformFieldConfig = {
-  whatsapp: { label: "WhatsApp number", placeholder: "+2348000000000", type: "tel" },
+  whatsapp: {
+    label: "WhatsApp number",
+    placeholder: "+2348000000000",
+    type: "tel",
+  },
   sms: { label: "Phone number", placeholder: "+2348000000000", type: "tel" },
-  email: { label: "Email address", placeholder: "you@example.com", type: "email" },
-  telegram: { label: "Telegram username", placeholder: "@yourhandle", type: "text" },
+  email: {
+    label: "Email address",
+    placeholder: "you@example.com",
+    type: "email",
+  },
+  telegram: {
+    label: "Telegram username",
+    placeholder: "@yourhandle",
+    type: "text",
+  },
 } as const;
 
 interface SubscribeFormFieldsProps {
@@ -41,6 +53,7 @@ export default function SubscribeFormFields({
   return (
     <>
       <InputField
+        className=""
         label="Your location"
         icon={<LuMapPin />}
         type="text"
@@ -49,20 +62,24 @@ export default function SubscribeFormFields({
         error={methods.formState.errors.location}
       />
 
-      <div>
+      <div className="flex items-center gap-2 p-2">
         <SelectOption
+          className="w-30 text-sm text-slate-800/80 focus:outline-none font-sans font-normal  rounded-2xl bg-white/85 p-3"
           label="Send via"
           options={platformOptions}
           registration={methods.register("platform")}
           error={methods.formState.errors.platform}
         />
-        <InputField
-          label={fieldConfig.label}
-          type={fieldConfig.type}
-          placeholder={fieldConfig.placeholder}
-          registration={methods.register("platformHandle")}
-          error={methods.formState.errors.platformHandle}
-        />
+        <div className="flex-1">
+          <InputField
+            className="w-full"
+            label={fieldConfig.label}
+            type={fieldConfig.type}
+            placeholder={fieldConfig.placeholder}
+            registration={methods.register("platformHandle")}
+            error={methods.formState.errors.platformHandle}
+          />
+        </div>
       </div>
 
       <InputField
@@ -72,7 +89,7 @@ export default function SubscribeFormFields({
         registration={methods.register("deliveryTime")}
         error={methods.formState.errors.deliveryTime}
       />
-      <p>Uses your local timezone (Africa/Lagos).</p>
+      <p className="text-xs px-1 font-sans text-slate-500 font-normal">Uses your local timezone (Africa/Lagos).</p>
 
       {submitError && <p>{submitError}</p>}
       {submitSuccess && <p>{submitSuccess}</p>}

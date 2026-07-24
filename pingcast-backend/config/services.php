@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'openai' => [
+    'key' => env('OPENAI_API_KEY'),
+],
+"n8n" => [
+    "webHook_url" =>env("N8N_WEBHOOK_URL"),
+],
 ];

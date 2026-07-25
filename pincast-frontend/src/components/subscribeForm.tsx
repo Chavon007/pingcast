@@ -87,7 +87,7 @@ export default function SubscribeFormFields({
 
       {platform === "telegram" && (
         <a
-          href="https://t.me/PingcastWeatherBot"
+          href="https://t.me/PingcastWeatherBot?start=<subscription_id>"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 rounded-2xl bg-[#229ED9] hover:bg-[#229ED9]/85 text-white text-sm font-sans font-semibold p-3"

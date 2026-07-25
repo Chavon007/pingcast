@@ -39,6 +39,6 @@ return [
     'key' => env('OPENAI_API_KEY'),
 ],
 "n8n" => [
-    "webHook_url" =>env("N8N_WEBHOOK_URL"),
+    "webhook_url" => env("N8N_WEBHOOK_URL"),
 ],
 ];

@@ -94,7 +94,7 @@ function Home() {
               className="w-[90%] mx-auto flex flex-col gap-3"
               onSubmit={handleSubmit}
               schema={FormSchema}
-              defaultValues={{ platform: "whatsapp" }}
+              defaultValues={{ platform: "email" }}
             >
               {(methods) => (
                 <SubscribeFormFields

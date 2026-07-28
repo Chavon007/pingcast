@@ -8,3 +8,4 @@ Route::get("/", function(){
     return "Pingcast backend is running";
 });
 Route::post("/subscribe", [WeatherController::class, "store"])->name("subscribers.store");
+Route::post("/telegram/link", [WeatherController::class, "linkTelegram"]);

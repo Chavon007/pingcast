@@ -4,7 +4,7 @@ import { IoSunnyOutline } from "react-icons/io5";
 import { LuWind, LuSparkles } from "react-icons/lu";
 import { CiCloud } from "react-icons/ci";
 import Form from "../components/Form";
-import subscribeUser from "../hook/formhook";
+import subscribeUser from "../hook/formHook";
 import { FormSchema, type FormDTO } from "../schema/formSchema";
 import SubscribeFormFields from "../components/subscribeForm";
 
@@ -17,18 +17,18 @@ const about = [
 function Home() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
-
+  const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
   const handleSubmit = async (data: FormDTO) => {
     setSubmitError(null);
     setSubmitSuccess(null);
     try {
-      await subscribeUser(data);
+      const response = await subscribeUser(data);
       setSubmitSuccess("Successfully subscribed");
+      setSubscriptionId(response.data.id);
     } catch (err) {
       setSubmitError("Something went wrong. Please try again.");
     }
   };
-
   return (
     <div className="bg-linear-to-br from-primary via-accent to-secondary min-h-screen py-12 px-2 flex items-center overflow-hidden">
       <div className="container lg:flex items-center justify-between gap-4 lg:w-[90%] mx-auto">
@@ -94,13 +94,14 @@ function Home() {
               className="w-[90%] mx-auto flex flex-col gap-3"
               onSubmit={handleSubmit}
               schema={FormSchema}
-              defaultValues={{ platform: "whatsapp" }}
+              defaultValues={{ platform: "email" }}
             >
               {(methods) => (
                 <SubscribeFormFields
                   methods={methods}
                   submitError={submitError}
                   submitSuccess={submitSuccess}
+                  subscriptionId={subscriptionId}
                 />
               )}
             </Form>

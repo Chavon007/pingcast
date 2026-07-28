@@ -3,7 +3,8 @@
 namespace Modules\Weather\App\Repositories;
 
 use Modules\Weather\App\Interfaces\SubscriptionRepositoryInterface;
-use Modules\Weather\Models\Subscription;
+use Modules\Weather\App\Models\Subscription;
+
 
 class SubscriptionRepository implements SubscriptionRepositoryInterface
 {
@@ -17,5 +18,20 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface
     public function create(array $data)
     {
         return $this->model->create($data);
+    }
+
+  
+    public function updatePlatformHandle(string $subscriptionId, string $chatId)
+    {
+        $subscription = $this->model->find($subscriptionId);
+
+        if(!$subscription){
+            return null;
+        }
+        $subscription->update([
+            "platformHandle" => $chatId,
+        ]);
+
+       return $subscription;
     }
 }

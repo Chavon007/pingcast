@@ -1,14 +1,13 @@
 <?php
 
-namespace Modules\Weather\Models;
+namespace Modules\Weather\App\Models;
+
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Weather\Database\Factories\SubscriptionFactory;
 
 class Subscription extends Model
 {
-    use HasFactory;
+   
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +20,9 @@ class Subscription extends Model
 
     ];
 
+    public function reportLogs(){
+        return $this->hasMany(ReportLog::class, "subscription_id");
+    }
     // protected static function newFactory(): SubscriptionFactory
     // {
     //     // return SubscriptionFactory::new();

@@ -5,6 +5,8 @@ namespace Modules\Weather\App\Providers;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\Weather\App\Interfaces\SubscriptionRepositoryInterface;
 use Modules\Weather\App\Repositories\SubscriptionRepository;
+use Modules\Weather\App\Interfaces\ReportLogRepositoryInterface;
+use Modules\Weather\App\Repositories\ReportLogRepository;
 
 class WeatherServiceProvider extends ModuleServiceProvider
 {
@@ -36,5 +38,6 @@ class WeatherServiceProvider extends ModuleServiceProvider
         parent::register();
 
         $this->app->bind(SubscriptionRepositoryInterface::class, SubscriptionRepository::class);
-    }
+        $this->app->bind(ReportLogRepositoryInterface::class, ReportLogRepository::class);    
+        }
 }

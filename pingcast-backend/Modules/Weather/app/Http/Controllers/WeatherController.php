@@ -2,8 +2,10 @@
 
 namespace Modules\Weather\App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use Modules\Weather\App\Requests\StoreSubscriptionRequest;
+use Modules\Weather\App\Http\Requests\StoreSubscriptionRequest;
 use Modules\Weather\App\Services\SubscriptionService;
+use Illuminate\Http\Request;
+
 
 class WeatherController extends Controller
 {
@@ -25,7 +27,25 @@ public function __construct(protected SubscriptionService $subscriptionService){
         ], 201);
     }
        
+    public function linkTelegram(Request $request){
 
+    $validated = $request->validate([
+        'subscription_id' => 'required|string',
+            'chat_id' => 'required|string',
+    ]);
+        $subscription = $this->subscriptionService->updatePlatformHandle($validated["subscription_id"], $validated["chat_id"]);
+
+        if(!$subscription){
+             return response()->json([
+                'message' => 'Subscription not found',
+            ], 404);
+        }
+
+        return response()->json([
+            "message" => "Telegram linked successfully",
+            "data" => $subscription
+        ], 200);
+    }
     
    
 }

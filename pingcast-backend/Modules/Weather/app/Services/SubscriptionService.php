@@ -15,4 +15,7 @@ public function __construct(
 public function create(array $data){
     return $this->subscriptionRepository->create($data);
 }
+public function updatePlatformHandle(string $subscriptionId, string $chatId){
+    return $this->subscriptionRepository->updatePlatformHandle($subscriptionId, $chatId);
+}
 }

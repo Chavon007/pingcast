@@ -29,12 +29,14 @@ interface SubscribeFormFieldsProps {
   methods: UseFormReturn<FormDTO>;
   submitError: string | null;
   submitSuccess: string | null;
+  subscriptionId: string | null;
 }
 
 export default function SubscribeFormFields({
   methods,
   submitError,
   submitSuccess,
+  subscriptionId,
 }: SubscribeFormFieldsProps) {
   const platform =
     useWatch({ control: methods.control, name: "platform" }) ?? "email";
@@ -85,14 +87,14 @@ export default function SubscribeFormFields({
         error={errors.deliveryTime}
       />
 
-      {platform === "telegram" && (
+      {platform === "telegram" && submitSuccess && subscriptionId && (
         <a
-          href="https://t.me/PingcastWeatherBot?start=<subscription_id>"
+          href={`https://t.me/PingcastWeatherBot?start=${subscriptionId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 rounded-2xl bg-[#229ED9] hover:bg-[#229ED9]/85 text-white text-sm font-sans font-semibold p-3"
         >
-        <PiTelegramLogoThin className="text-white" />
+          <PiTelegramLogoThin className="text-white" />
           Start chat with our Telegram bot
         </a>
       )}

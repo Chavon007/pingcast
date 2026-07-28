@@ -3,12 +3,11 @@
 namespace Modules\Weather\App\Models;
 
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
-    protected $connection = "mongodb";
-    protected $collectin = "subscription";
+   
 
     /**
      * The attributes that are mass assignable.

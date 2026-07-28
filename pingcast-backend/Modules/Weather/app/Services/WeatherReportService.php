@@ -28,7 +28,7 @@ public function processSubscription(Subscription $subscription): void
         return; // No report due right now
     }
 
-    $reportLog = $this->reportLogRepository->findOrCreateForToday((string) $subscription->_id);
+    $reportLog = $this->reportLogRepository->findOrCreateForToday((string) $subscription->id);
 
     // Only skip if it was already successfully sent — failed attempts get retried
     if ($reportLog->{$slot} === 'sent') {
@@ -37,9 +37,9 @@ public function processSubscription(Subscription $subscription): void
 
     try {
         $this->sendReportFor($subscription);
-        $this->reportLogRepository->markSent((string) $subscription->_id, $slot);
+        $this->reportLogRepository->markSent((string) $subscription->id, $slot);
     } catch (Exception $e) {
-        $this->reportLogRepository->markFailed((string) $subscription->_id, $slot);
+        $this->reportLogRepository->markFailed((string) $subscription->id, $slot);
     }
 }
     /**

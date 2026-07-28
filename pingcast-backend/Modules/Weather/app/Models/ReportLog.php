@@ -2,13 +2,12 @@
 
 namespace Modules\Weather\App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Weather\App\Models\Subscription;
 
 class ReportLog extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'report_logs';
+    
 
     protected $fillable = [
         'subscription_id',

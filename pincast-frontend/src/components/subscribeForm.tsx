@@ -44,8 +44,12 @@ export default function SubscribeFormFields({
   const fieldConfig = platformFieldConfig[platform];
 
   useEffect(() => {
-    methods.resetField("platformHandle");
-  }, [platform]);
+    if (submitSuccess) {
+      methods.resetField("location");
+      methods.resetField("platformHandle");
+      methods.resetField("deliveryTime");
+    }
+  }, [submitSuccess]);
 
   return (
     <>

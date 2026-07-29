@@ -1,14 +1,4 @@
 services:
-
-  frontend:
-    build:
-      context: ./pincast-frontend
-      dockerfile: Dockerfile
-    container_name: pingcast_frontend
-    ports:
-      - "5173:80"
-    networks:
-      - pingcast_network
   backend:
     build:
       context: ./pingcast-backend

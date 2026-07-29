@@ -98,7 +98,7 @@ export default function SubscribeFormFields({
           Start chat with our Telegram bot
         </a>
       )}
-      {platform === "telegram" && (
+      {platform === "telegram" && submitSuccess && subscriptionId && (
         <p className="text-xs text-slate-500 font-sans px-1">
           You must press "Start" in Telegram before we can send you reports.
         </p>

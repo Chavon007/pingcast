@@ -23,7 +23,9 @@ function Home() {
     setSubmitSuccess(null);
     try {
       const response = await subscribeUser(data);
-      setSubmitSuccess("Successfully subscribed");
+      setTimeout(() => {
+        setSubmitSuccess("Successfully subscribed");
+      }, 2000);
       setSubscriptionId(response.data.id);
     } catch (err) {
       setSubmitError("Something went wrong. Please try again.");

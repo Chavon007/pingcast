@@ -13,8 +13,6 @@ class ReportLog extends Model
         'subscription_id',
         'date',
         'first_report',
-        'second_report',
-        'third_report',
     ];
 
     public function subscription()

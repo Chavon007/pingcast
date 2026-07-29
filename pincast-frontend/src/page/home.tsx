@@ -18,17 +18,22 @@ function Home() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
   const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
-  const handleSubmit = async (data: FormDTO) => {
-    setSubmitError(null);
-    setSubmitSuccess(null);
-    try {
-      const response = await subscribeUser(data);
-      setSubmitSuccess("Successfully subscribed");
-      setSubscriptionId(response.data.id);
-    } catch (err) {
-      setSubmitError("Something went wrong. Please try again.");
-    }
-  };
+ const handleSubmit = async (data: FormDTO) => {
+  setSubmitError(null);
+  setSubmitSuccess(null);
+  try {
+    const response = await subscribeUser(data);
+    setSubmitSuccess("Successfully subscribed");
+    setSubscriptionId(response.data.id);
+
+    setTimeout(() => {
+      setSubmitSuccess(null);
+      setSubscriptionId(null);
+    }, 5000);
+  } catch (err) {
+    setSubmitError("Something went wrong. Please try again.");
+  }
+};
   return (
     <div className="bg-linear-to-br from-primary via-accent to-secondary min-h-screen py-12 px-2 flex items-center overflow-hidden">
       <div className="container lg:flex items-center justify-between gap-4 lg:w-[90%] mx-auto">

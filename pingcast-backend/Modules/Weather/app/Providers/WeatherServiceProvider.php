@@ -2,11 +2,13 @@
 
 namespace Modules\Weather\App\Providers;
 
+use Modules\Weather\App\Console\Commands\SendWeatherReports;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 use Modules\Weather\App\Interfaces\SubscriptionRepositoryInterface;
 use Modules\Weather\App\Repositories\SubscriptionRepository;
 use Modules\Weather\App\Interfaces\ReportLogRepositoryInterface;
 use Modules\Weather\App\Repositories\ReportLogRepository;
+
 
 class WeatherServiceProvider extends ModuleServiceProvider
 {
@@ -40,4 +42,20 @@ class WeatherServiceProvider extends ModuleServiceProvider
         $this->app->bind(SubscriptionRepositoryInterface::class, SubscriptionRepository::class);
         $this->app->bind(ReportLogRepositoryInterface::class, ReportLogRepository::class);    
         }
+
+        
+    /**
+     * Bootstrap the application events.
+     */
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        if($this->app->runningInConsole()){
+            $this->commands([
+                SendWeatherReports::class,
+            ]);
+        }
+    }
 }

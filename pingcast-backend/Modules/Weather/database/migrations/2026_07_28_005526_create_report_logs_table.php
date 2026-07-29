@@ -16,8 +16,6 @@ return new class extends Migration
             $table->foreignId("subscription_id")->constrained()->onDelete('cascade');
             $table->date("date");
             $table->string("first_report")->default("pending");
-            $table->string("second_report")->default("pending");
-            $table->string("third_report")->default("pending");
             $table->timestamps();
         });
     }

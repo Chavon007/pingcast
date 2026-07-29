@@ -1,8 +1,8 @@
 <?php
 
 namespace Modules\Weather\App\Services;
-
 use Modules\Weather\App\Models\Subscription;
+use Illuminate\Support\Facades\Log;
 use Modules\Weather\App\Interfaces\ReportLogRepositoryInterface;
 use Carbon\Carbon;
 use Exception;
@@ -24,6 +24,7 @@ public function processSubscription(Subscription $subscription): void
 {
     $slot = $this->getDueSlot($subscription);
 
+   
     if (!$slot) {
         return; // No report due right now
     }
@@ -39,6 +40,11 @@ public function processSubscription(Subscription $subscription): void
         $this->sendReportFor($subscription);
         $this->reportLogRepository->markSent((string) $subscription->id, $slot);
     } catch (Exception $e) {
+        Log::error('Report failed for subscription.', [
+        'subscription_id' => $subscription->id,
+        'slot' => $slot,
+        'error' => $e->getMessage(),
+    ]);
         $this->reportLogRepository->markFailed((string) $subscription->id, $slot);
     }
 }
@@ -62,25 +68,15 @@ public function processSubscription(Subscription $subscription): void
      * Determine which slot (first_report, second_report, third_report) is due right now,
      * based on the subscriber's chosen deliveryTime. Returns null if none are due.
      */
-    protected function getDueSlot(Subscription $subscription): ?string
-    {
-        $baseTime = Carbon::createFromFormat('h:i A', $subscription->deliveryTime);
+  protected function getDueSlot(Subscription $subscription): ?string
+{
+    $baseTime = Carbon::createFromFormat('h:i A', $subscription->deliveryTime);
+    $now = Carbon::now();
 
-        $slots = [
-            'first_report' => $baseTime->copy(),
-            'second_report' => $baseTime->copy()->addHours(6),
-            'third_report' => $baseTime->copy()->addHours(12),
-        ];
-
-        $now = Carbon::now();
-
-        foreach ($slots as $slot => $time) {
-            // "Due" = current time is within the same minute as the slot's scheduled time
-            if ($now->format('H:i') === $time->format('H:i')) {
-                return $slot;
-            }
-        }
-
-        return null;
+    if ($now->format('H:i') === $baseTime->format('H:i')) {
+        return 'first_report';
     }
+
+    return null;
+}
 }

@@ -35,8 +35,8 @@ return [
         ],
     ],
 
-    'openai' => [
-    'key' => env('OPENAI_API_KEY'),
+'groq' => [
+    'key' => env('GROQ_API_KEY'),
 ],
 "n8n" => [
     "webhook_url" => env("N8N_WEBHOOK_URL"),

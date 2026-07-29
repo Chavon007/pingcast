@@ -3,6 +3,7 @@
 namespace Modules\Weather\App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class AiSummaryService
@@ -35,6 +36,10 @@ class AiSummaryService
             ]);
 
         if (!$response->successful()) {
+            Log::error('AI summary generation failed.', [
+        'status' => $response->status(),
+        'body' => $response->body(),
+    ]);
             throw new Exception('Failed to generate AI summary: ' . $response->body());
         }
 

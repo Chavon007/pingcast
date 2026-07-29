@@ -2,6 +2,7 @@
 
 namespace Modules\Weather\App\Services;
 use Modules\Weather\App\Models\Subscription;
+use Illuminate\Support\Facades\Log;
 use Modules\Weather\App\Interfaces\ReportLogRepositoryInterface;
 use Carbon\Carbon;
 use Exception;
@@ -39,6 +40,11 @@ public function processSubscription(Subscription $subscription): void
         $this->sendReportFor($subscription);
         $this->reportLogRepository->markSent((string) $subscription->id, $slot);
     } catch (Exception $e) {
+        Log::error('Report failed for subscription.', [
+        'subscription_id' => $subscription->id,
+        'slot' => $slot,
+        'error' => $e->getMessage(),
+    ]);
         $this->reportLogRepository->markFailed((string) $subscription->id, $slot);
     }
 }

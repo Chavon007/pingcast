@@ -3,6 +3,7 @@
 namespace Modules\Weather\App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class WeatherApiService
@@ -20,6 +21,11 @@ class WeatherApiService
         ]);
 
         if (!$response->successful() || empty($response->json("results"))) {
+            
+            Log::error("Geocoding failed for location: {$location}", [
+                "status" => $response->status(),
+                "body" => $response->body(),
+            ]);
             throw new Exception("Could not find coordinates for location: {$location}");
         }
 
@@ -49,6 +55,12 @@ class WeatherApiService
         ]);
 
         if (!$response->successful()) {
+             Log::error("Failed to fetch weather data.", [
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
             throw new Exception("Failed to fetch weather data.");
         }
 

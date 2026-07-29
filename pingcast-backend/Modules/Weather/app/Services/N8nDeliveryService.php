@@ -2,6 +2,7 @@
 
 namespace Modules\Weather\App\Services;
 use  Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class N8nDeliveryService {
@@ -23,6 +24,12 @@ public function send(string $platform, string $platformHandle, string $message )
     ]);
 
     if(!$response->successful()){
+        Log::error('n8n delivery failed.', [
+        'platform' => $platform,
+        'platformHandle' => $platformHandle,
+        'status' => $response->status(),
+        'body' => $response->body(),
+    ]);
         throw new Exception(("Failed to send message via n8n:". $response->body()));
     }
     return true;

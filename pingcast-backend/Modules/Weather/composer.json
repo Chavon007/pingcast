@@ -15,11 +15,9 @@
             }
         }
     },
- "autoload": {
+"autoload": {
     "psr-4": {
-        "Modules\\Weather\\": "",
-        "Modules\\Weather\\Database\\Factories\\": "Database/Factories/",
-        "Modules\\Weather\\Database\\Seeders\\": "Database/Seeders/"
+        "Modules\\Weather\\App\\": "Modules/Weather/app/"
     }
 },
     "autoload-dev": {

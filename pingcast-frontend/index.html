@@ -2,9 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/pingcast.png" sizes="180x180" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pincast-frontend</title>
+    <title>Pingcast - Your Daily Weather, Delivered</title>
+    <meta
+      name="description"
+      content="Get AI-personalized daily weather reports delivered straight to your Telegram, or Email."
+    />
+
+    <!-- open graph / social sharing preview -->
+
+    <meta
+      property="og:title"
+      content="Pingcast — Your Daily Weather, Delivered"
+    />
+    <meta
+      property="og:description"
+      content="Get AI-personalized daily weather reports delivered straight to your Telegram, or Email."
+    />
+    <meta
+      property="og:image"
+      content="https://pingcast-lime.vercel.app/preview-image.png"
+    />
+    <meta
+      property="og:url"
+      content="https://pingcast-lime.vercel.app/preview-image.png"
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- x card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Pingcast — Your Daily Weather, Delivered"
+    />
+    <meta
+      name="description"
+      content="Get AI-personalized daily weather reports delivered straight to your Telegram, or Email."
+    />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-YGRN48RL8Z"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-YGRN48RL8Z");
+    </script>
   </head>
   <body>
     <div id="root"></div>

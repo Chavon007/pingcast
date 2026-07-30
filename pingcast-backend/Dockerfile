@@ -1,15 +1,17 @@
 FROM php:8.3-fpm-alpine
 
-RUN addgroup -g 1000 laravel && \
-    adduser -G laravel -g laravel -s /bin/sh -D laravel
+WORKDIR /var/www/html
 
-
-# Install dependencies for PHP extensions
+# Install system dependencies
 RUN apk add --no-cache \
+    nginx \
+    curl \
+    git \
+    unzip \
     sqlite-dev \
     libzip-dev \
-    oniguruma-dev
-
+    oniguruma-dev \
+    supervisor
 
 # Install PHP extensions
 RUN docker-php-ext-install \
@@ -19,6 +21,41 @@ RUN docker-php-ext-install \
     bcmath \
     opcache
 
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN mkdir -p /var/www/html /var/run/php && \
-    chown -R laravel:laravel /var/www/html /var/run/php
+
+# Copy Laravel application
+COPY . .
+
+
+# Install Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+
+# Create required directories
+RUN mkdir -p \
+    /run/nginx \
+    /var/run/php \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    bootstrap/cache
+
+
+# Permissions
+RUN chown -R www-data:www-data \
+    storage \
+    bootstrap/cache
+
+
+# Copy nginx configuration
+COPY nginx/default.conf /etc/nginx/http.d/default.conf
+
+
+# Expose Render port
+EXPOSE 10000
+
+
+# Start PHP-FPM + Nginx
+CMD php-fpm -D && nginx -g "daemon off;"

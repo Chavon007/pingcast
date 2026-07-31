@@ -15,4 +15,4 @@ Route::get("/admin/subscriptions", function(Illuminate\Http\Request $request) {
         abort(403);
     }
     return \Modules\Weather\App\Models\Subscription::with("reportLogs")->get();
-})
+});

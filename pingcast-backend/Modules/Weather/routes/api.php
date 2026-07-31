@@ -16,8 +16,3 @@ Route::get("/admin/subscriptions", function(Illuminate\Http\Request $request) {
     }
     return \Modules\Weather\App\Models\Subscription::with("reportLogs")->get();
 });
-Route::get("/debug-key", function () {
-    return response()->json([
-        'env_value' => env('ADMIN_SECRET_KEY'),
-    ]);
-});

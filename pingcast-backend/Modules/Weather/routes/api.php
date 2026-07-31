@@ -9,3 +9,4 @@ Route::get("/", function(){
 });
 Route::post("/subscribe", [WeatherController::class, "store"])->name("subscribers.store");
 Route::post("/telegram/link", [WeatherController::class, "linkTelegram"]);
+Route::post("/telegram/webhook", [WeatherController::class, "telegramWebhook"]);

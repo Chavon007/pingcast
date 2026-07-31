@@ -47,5 +47,22 @@ public function __construct(protected SubscriptionService $subscriptionService){
         ], 200);
     }
     
-   
+    public function telegramWebhook(Request $request){
+        $text = $request->input("message.text", "");
+        $chatId = $request->input("message.chat.id");
+
+        if(!$chatId || !str_starts_with($text, "/start")){
+            return response()->json(["ok" => true]);
+        }
+
+        $parts = explode("", $text);
+        $subscriptionId = $parts[1] ?? null;
+
+        if(!$subscriptionId){
+            return response()-> json(["ok" => null]);
+        }
+
+        $this->subscriptionService->updatePlatformHandle($subscriptionId, (string) $chatId);
+        return response()->json(["ok" => true]);
+        }
 }

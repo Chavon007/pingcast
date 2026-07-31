@@ -38,7 +38,7 @@ return [
 'groq' => [
     'key' => env('GROQ_API_KEY'),
 ],
-"n8n" => [
-    "webhook_url" => env("N8N_WEBHOOK_URL"),
-],
+"telegram" => [
+    "token" => env("TELEGRAM_BOT_TOKEN"),
+]
 ];

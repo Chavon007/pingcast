@@ -51,8 +51,7 @@ RUN chown -R www-data:www-data \
     bootstrap/cache \
     database
 
-    # run scheduler 
-RUN chmod +x start-scheduler.sh
+
 # Copy nginx configuration
 COPY nginx/default.conf /etc/nginx/http.d/default.conf
 

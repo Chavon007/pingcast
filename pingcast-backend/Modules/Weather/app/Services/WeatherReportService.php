@@ -12,7 +12,7 @@ class WeatherReportService
     public function __construct(
         protected WeatherApiService $weatherApiService,
         protected AiSummaryService $aiSummaryService,
-        protected N8nDeliveryService $n8nDeliveryService,
+        protected DeliveryService $DeliveryService,
         protected ReportLogRepositoryInterface $reportLogRepository,
     ) {}
 
@@ -57,7 +57,7 @@ public function processSubscription(Subscription $subscription): void
 
         $message = $this->aiSummaryService->summarize($weatherData);
 
-        $this->n8nDeliveryService->send(
+        $this->DeliveryService->send(
             $subscription->platform,
             $subscription->platformHandle,
             $message

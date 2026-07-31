@@ -24,14 +24,14 @@ RUN docker-php-ext-install \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-
 # Copy Laravel application
 COPY . .
 
+# Create SQLite database file if it doesn't exist
+RUN mkdir -p database && touch database/database.sqlite
 
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
-
 
 # Create required directories
 RUN mkdir -p \
@@ -42,20 +42,17 @@ RUN mkdir -p \
     storage/framework/views \
     bootstrap/cache
 
-
 # Permissions
 RUN chown -R www-data:www-data \
     storage \
-    bootstrap/cache
-
+    bootstrap/cache \
+    database
 
 # Copy nginx configuration
 COPY nginx/default.conf /etc/nginx/http.d/default.conf
 
-
 # Expose Render port
 EXPOSE 10000
 
-
 # Start PHP-FPM + Nginx
-CMD php-fpm -D && nginx -g "daemon off;"
+CMD php artisan migrate --force && php-fpm -D && nginx -g "daemon off;"

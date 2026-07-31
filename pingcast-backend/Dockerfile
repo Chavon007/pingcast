@@ -9,6 +9,7 @@ RUN apk add --no-cache \
     git \
     unzip \
     sqlite-dev \
+    postgresql-dev \
     libzip-dev \
     oniguruma-dev \
     supervisor
@@ -17,6 +18,8 @@ RUN apk add --no-cache \
 RUN docker-php-ext-install \
     pdo \
     pdo_sqlite \
+    pdo_pgsql \
+    pgsql \
     mysqli \
     bcmath \
     opcache

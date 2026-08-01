@@ -4,4 +4,7 @@ mkdir -p /tmp/empty
 
 php -S 0.0.0.0:$PORT -t /tmp/empty &
 
-exec php artisan schedule:work
+while true; do
+  php artisan schedule:run
+  sleep 60
+done

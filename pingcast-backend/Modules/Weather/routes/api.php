@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Weather\App\Http\Controllers\WeatherController;
-
+use Illuminate\Support\Facades\Artisan;
 
 Route::get("/", function(){
     return "Pingcast backend is running";
@@ -15,4 +15,8 @@ Route::get("/admin/subscriptions", function(Illuminate\Http\Request $request) {
         abort(403);
     }
     return \Modules\Weather\App\Models\Subscription::with("reportLogs")->get();
+});
+Route::get("/run-scheduler", function(){
+Artisan::call("schedule:run");
+return response()->json(["ok" => true]);
 });

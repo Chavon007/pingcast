@@ -68,10 +68,16 @@ public function processSubscription(Subscription $subscription): void
      * Determine which slot (first_report, second_report, third_report) is due right now,
      * based on the subscriber's chosen deliveryTime. Returns null if none are due.
      */
-  protected function getDueSlot(Subscription $subscription): ?string
+protected function getDueSlot(Subscription $subscription): ?string
 {
     $baseTime = Carbon::createFromFormat('h:i A', $subscription->deliveryTime);
     $now = Carbon::now();
+
+    Log::info("Checking report time", [
+        "subscription_id" => $subscription->id,
+        "saved_time" => $subscription->deliveryTime,
+        "current_time" => $now->format('h:i A'),
+    ]);
 
     if ($now->format('H:i') === $baseTime->format('H:i')) {
         return 'first_report';

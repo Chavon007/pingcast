@@ -20,3 +20,20 @@ Route::get("/run-scheduler", function(){
 Artisan::call("schedule:run");
 return response()->json(["ok" => true]);
 });
+
+Route::get('/debug-report/{id}', function ($id) {
+    $subscription = \Modules\Weather\App\Models\Subscription::find($id);
+    if (!$subscription) {
+        return response()->json(['error' => 'not found']);
+    }
+
+    $subscription->deliveryTime = now()->format('h:i A');
+    $subscription->save();
+
+    try {
+        app(\Modules\Weather\App\Services\WeatherReportService::class)->processSubscription($subscription->fresh());
+        return response()->json(['ok' => true, 'checked_at' => now()->toDateTimeString()]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});

@@ -73,10 +73,12 @@ protected function getDueSlot(Subscription $subscription): ?string
     $baseTime = Carbon::createFromFormat('h:i A', $subscription->deliveryTime);
     $now = Carbon::now();
 
-    Log::info("Checking report time", [
-        "subscription_id" => $subscription->id,
-        "saved_time" => $subscription->deliveryTime,
-        "current_time" => $now->format('h:i A'),
+    \Illuminate\Support\Facades\Log::info('getDueSlot check', [
+        'subscription_id' => $subscription->id,
+        'deliveryTime_raw' => $subscription->deliveryTime,
+        'baseTime_formatted' => $baseTime->format('H:i'),
+        'now_formatted' => $now->format('H:i'),
+        'match' => $now->format('H:i') === $baseTime->format('H:i'),
     ]);
 
     if ($now->format('H:i') === $baseTime->format('H:i')) {

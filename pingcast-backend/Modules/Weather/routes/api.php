@@ -20,4 +20,16 @@ Route::get("/run-scheduler", function(){
 Artisan::call("schedule:run");
 return response()->json(["ok" => true]);
 });
+Route::get("/debug-logs", function(Illuminate\Http\Request $request){
+    if ($request->query('key') !== env('ADMIN_SECRET_KEY')) {
+        abort(403);
+    }
+    $logPath = storage_path('logs/laravel.log');
+    if (!file_exists($logPath)) {
+        return response()->json(['error' => 'log file not found']);
+    }
+    $lines = file($logPath);
+    $lastLines = array_slice($lines, -60);
+    return response()->json(['log_tail' => $lastLines]);
+});
 

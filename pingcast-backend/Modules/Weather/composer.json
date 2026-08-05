@@ -17,7 +17,7 @@
     },
 "autoload": {
     "psr-4": {
-        "Modules\\Weather\\App\\": "Modules/Weather/app/"
+        "Modules\\Weather\\App\\": "Modules/Weather/App/"
     }
 },
     "autoload-dev": {

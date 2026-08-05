@@ -36,6 +36,10 @@ RUN mkdir -p database && touch database/database.sqlite
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+# Clear stale caches so modules/routes/commands are always fresh
+RUN composer dump-autoload -o
+RUN rm -f bootstrap/cache/modules.php bootstrap/cache/packages.php bootstrap/cache/services.php bootstrap/cache/config.php bootstrap/cache/routes-v7.php
+
 # Create required directories
 RUN mkdir -p \
     /run/nginx \

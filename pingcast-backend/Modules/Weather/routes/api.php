@@ -20,7 +20,16 @@ Route::get("/run-scheduler", function(){
 Artisan::call("schedule:run");
 return response()->json(["ok" => true]);
 });
-
+Route::get("/debug-check-command", function(Illuminate\Http\Request $request){
+    if ($request->query('key') !== env('ADMIN_SECRET_KEY')) {
+        abort(403);
+    }
+    $commands = Artisan::all();
+    return response()->json([
+        'weather_command_exists' => isset($commands['weather:send-reports']),
+        'all_command_names' => array_keys($commands),
+    ]);
+});
 Route::get('/debug-report/{id}', function ($id) {
     $subscription = \Modules\Weather\App\Models\Subscription::find($id);
     if (!$subscription) {

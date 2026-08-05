@@ -47,6 +47,9 @@ class ReportLogRepository implements ReportLogRepositoryInterface{
         public function markFailed(string $subscriptionId, string $slot): void
         {
             $log = $this->findOrCreateForToday($subscriptionId);
+            if($log->{$slot} === "sent"){
+                return;
+            }
             $log->update([$slot => "failed"]);
         }
 }

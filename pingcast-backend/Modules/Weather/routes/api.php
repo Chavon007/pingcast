@@ -33,3 +33,32 @@ Route::get("/debug-logs", function(Illuminate\Http\Request $request){
     $lastLines = array_slice($lines, -80);
     return response()->json(['log_tail' => $lastLines]);
 });
+
+Route::get('/debug-test-and-log/{id}', function ($id, Illuminate\Http\Request $request) {
+    if ($request->query('key') !== env('ADMIN_SECRET_KEY')) {
+        abort(403);
+    }
+
+    $subscription = \Modules\Weather\App\Models\Subscription::find($id);
+    if (!$subscription) {
+        return response()->json(['error' => 'not found']);
+    }
+
+    $subscription->deliveryTime = now()->format('h:i A');
+    $subscription->save();
+
+    $result = ['triggered_at' => now()->toDateTimeString()];
+
+    try {
+        app(\Modules\Weather\App\Services\WeatherReportService::class)->processSubscription($subscription->fresh());
+        $result['pipeline_result'] = 'ok';
+    } catch (\Exception $e) {
+        $result['pipeline_result'] = 'error';
+        $result['pipeline_error'] = $e->getMessage();
+    }
+
+    $logPath = storage_path('logs/laravel.log');
+    $result['log_tail'] = file_exists($logPath) ? array_slice(file($logPath), -20) : ['no log file'];
+
+    return response()->json($result);
+});

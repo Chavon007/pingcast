@@ -1,4 +1,4 @@
-import type React from "react";
+
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 interface deliveryInputProps {

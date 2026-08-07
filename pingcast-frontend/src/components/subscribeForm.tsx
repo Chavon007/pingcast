@@ -6,7 +6,7 @@ import InputField from "../components/InputField";
 import SelectOption from "../components/Select";
 import Button from "../components/Button";
 import type { FormDTO } from "../schema/formSchema";
-
+import DeliveryTime from "./deliveryTime";
 const platformOptions = [
   { label: "Email", value: "email" },
   { label: "Telegram", value: "telegram" },
@@ -47,7 +47,9 @@ export default function SubscribeFormFields({
     if (submitSuccess) {
       methods.resetField("location");
       methods.resetField("platformHandle");
-      methods.resetField("deliveryTime");
+      methods.resetField("hour");
+      methods.resetField("minutes");
+      methods.resetField("period");
     }
   }, [submitSuccess]);
 
@@ -83,12 +85,17 @@ export default function SubscribeFormFields({
         </div>
       </div>
 
-      <InputField
-        label="Preferred delivery time"
-        type="text"
-        placeholder="07:00 AM"
-        registration={methods.register("deliveryTime")}
-        error={errors.deliveryTime}
+      <DeliveryTime
+        hourRegistration={methods.register("hour", {
+          valueAsNumber: true,
+        })}
+        minuteRegistration={methods.register("minutes", {
+          valueAsNumber: true,
+        })}
+        periodRegistration={methods.register("period")}
+        hourError={errors.hour}
+        minutesError={errors.minutes}
+        periodError={errors.period}
       />
 
       {platform === "telegram" && submitSuccess && subscriptionId && (

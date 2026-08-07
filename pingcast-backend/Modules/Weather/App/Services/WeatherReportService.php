@@ -73,16 +73,18 @@ protected function getDueSlot(Subscription $subscription): ?string
     $baseTime = Carbon::createFromFormat('h:i A', $subscription->deliveryTime);
     $now = Carbon::now();
 
-    \Illuminate\Support\Facades\Log::info('getDueSlot check', [
-        'subscription_id' => $subscription->id,
-        'deliveryTime_raw' => $subscription->deliveryTime,
-        'baseTime_formatted' => $baseTime->format('H:i'),
-        'now_formatted' => $now->format('H:i'),
-        'match' => $now->format('H:i') === $baseTime->format('H:i'),
-    ]);
-
+    // Exact scheduled time - always attempt
     if ($now->format('H:i') === $baseTime->format('H:i')) {
         return 'first_report';
+    }
+
+    // If scheduled time has already passed today, retry if the last attempt failed
+    if ($now->greaterThan($baseTime)) {
+        $reportLog = $this->reportLogRepository->findOrCreateForToday((string) $subscription->id);
+
+        if ($reportLog->first_report === 'failed') {
+            return 'first_report';
+        }
     }
 
     return null;

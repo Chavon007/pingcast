@@ -33,6 +33,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    "resend" => [
+        "key" => env("RESEND_API_KEY")
+    ],
 
 'groq' => [
     'key' => env('GROQ_API_KEY'),

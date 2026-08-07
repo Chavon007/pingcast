@@ -42,18 +42,21 @@ class DeliveryService {
 
     protected function sendEmail(string $email, string $message): bool
     {
-        try {
-            Mail::html($message, function ($mail) use ($email) {
-                $mail->to($email)
-                     ->subject('Your Daily Weather Report');
-            });
-            return true;
-        } catch (Exception $e) {
-            Log::error("Email delivery failed", [
-                "email" => $email,
-                "error" => $e->getMessage(),
-            ]);
-            throw new Exception('Failed to send email: ' . $e->getMessage());
-        }
+       $response = Http::withToken(config("services.resend.key"))->post("https://api.resend.com/emails", [
+        "from" => "pingcast <hello@pingcast.site>",
+        "to" => [$email],
+        'subject' => 'Your Daily Weather Report',
+        'html' => $message,
+       ]);
+
+       if(!$response->successful()){
+        Log::error("Email delivert failed", [
+            "email" => $email,
+            "status" => $response->status(),
+            "body" => $response->body(),
+        ]);
+        throw new Exception('Failed to send email: ' . $response->body());
+       }
+       return true;
     }
 }
